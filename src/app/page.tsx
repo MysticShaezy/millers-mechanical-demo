@@ -26,7 +26,7 @@ export default function Home() {
         <HeroBannerTransition />
 
         {/* Page sections follow naturally */}
-        <div className="bg-background">
+        <div className="bg-white pb-[90px] md:pb-0">
           <ServiceGrid />
           <FeaturesSection />
           <Testimonials />

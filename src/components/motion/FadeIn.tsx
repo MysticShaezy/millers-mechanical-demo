@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import type { ReactNode } from "react";
+import { useReveal } from "./useReveal";
 
 interface FadeInProps {
   children: ReactNode;
@@ -14,6 +13,13 @@ interface FadeInProps {
   once?: boolean;
 }
 
+// Matches the previous framer-motion ease: [0.16, 1, 0.3, 1]
+const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+
+/**
+ * Fade + directional slide-in on scroll. CSS/IntersectionObserver implementation
+ * (no framer-motion) — same props and visual behaviour as before.
+ */
 export default function FadeIn({
   children,
   className,
@@ -23,37 +29,28 @@ export default function FadeIn({
   distance = 30,
   once = true,
 }: FadeInProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: "-50px" });
+  const [ref, inView] = useReveal<HTMLDivElement>(once, "-50px");
 
-  const directionMap = {
-    up: { y: distance },
-    down: { y: -distance },
-    left: { x: distance },
-    right: { x: -distance },
-    none: {},
-  };
+  // Hidden-state offset — element animates FROM here TO its resting position.
+  const hiddenTransform = {
+    up: `translateY(${distance}px)`,
+    down: `translateY(-${distance}px)`,
+    left: `translateX(${distance}px)`,
+    right: `translateX(-${distance}px)`,
+    none: "none",
+  }[direction];
 
   return (
-    <motion.div
+    <div
       ref={ref}
       className={className}
-      initial={{
-        opacity: 0,
-        ...directionMap[direction],
-      }}
-      animate={
-        isInView
-          ? { opacity: 1, x: 0, y: 0 }
-          : { opacity: 0, ...directionMap[direction] }
-      }
-      transition={{
-        duration,
-        delay,
-        ease: [0.16, 1, 0.3, 1],
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "none" : hiddenTransform,
+        transition: `opacity ${duration}s ${EASE} ${delay}s, transform ${duration}s ${EASE} ${delay}s`,
       }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

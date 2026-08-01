@@ -20,6 +20,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
   // Only render portal after client-side mount to prevent hydration mismatch
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -92,7 +93,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
       {/* Backdrop */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/60 backdrop-blur-sm z-overlay transition-opacity duration-normal",
+          "fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] transition-opacity duration-normal",
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         onClick={onClose}
@@ -100,13 +101,13 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
       />
 
       {/* Drawer */}
-      <nav
+      <div
         ref={navRef}
         role="dialog"
         aria-modal="true"
         aria-label="Mobile navigation"
         className={cn(
-          "fixed top-0 right-0 h-full w-[300px] max-w-[85vw] bg-brand-black z-modal",
+          "fixed top-0 right-0 h-full w-[300px] max-w-[85vw] bg-brand-black z-[95]",
           "flex flex-col shadow-2xl",
           "transition-transform duration-slow ease-out",
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -175,7 +176,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
             </a>
           </div>
         </div>
-      </nav>
+      </div>
     </>,
     document.body
   );

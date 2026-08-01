@@ -16,12 +16,12 @@ export default function Testimonials() {
           />
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-3 gap-6 pb-8 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
           {reviews.map((review, i) => (
-            <FadeIn key={review.id} delay={0.1 + i * 0.1}>
+            <FadeIn key={review.id} delay={0.1 + i * 0.1} className="min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center flex-shrink-0 md:flex-shrink">
               <Card dark className="h-full">
                 {/* Stars */}
-                <div className="flex gap-1 mb-4" aria-label={`${review.rating} out of 5 stars`}>
+                <div className="flex gap-1 mb-4" role="img" aria-label={`${review.rating} out of 5 stars`}>
                   {Array.from({ length: review.rating }).map((_, idx) => (
                     <Star
                       key={idx}

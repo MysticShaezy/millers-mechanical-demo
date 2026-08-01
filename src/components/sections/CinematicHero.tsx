@@ -86,19 +86,26 @@ export default function CinematicHero() {
         {/* Logo reveal — scales/fades with expansion */}
         <div
           className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
-          style={{ opacity: logoOpacity }}
+          style={{ 
+            opacity: logoOpacity,
+            display: pillProgress >= 0.95 ? "none" : "flex",
+          }}
         >
           <div
             className="w-[70vw] flex flex-col items-center gap-4"
             style={{ transform: `scale(${logoScale})`, maxWidth: "min(600px, 85vw)" }}
           >
+            {/* NOT priority: the logo starts at opacity 0 and only fades in as the
+                hero expands on scroll. Preloading it steals early bandwidth from the
+                real LCP (hero background + title font). It loads promptly anyway. */}
             <Image
               src="/assets/transparent-logo-white-removebg-preview.png"
               alt="Miller Engines & Mechanical"
               width={600}
-              height={600}
-              className="w-full h-auto drop-shadow-[0_0_60px_rgba(255,255,255,0.3)]"
-              priority
+              height={470}
+              className="drop-shadow-[0_0_60px_rgba(255,255,255,0.3)]"
+              style={{ width: "100%", height: "auto" }}
+              sizes="(max-width: 768px) 300px, 600px"
             />
           </div>
         </div>

@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import type { ReactNode } from "react";
+import { useReveal } from "./useReveal";
 
 interface SlideUpProps {
   children: ReactNode;
@@ -13,6 +12,13 @@ interface SlideUpProps {
   once?: boolean;
 }
 
+// Matches the previous framer-motion ease: [0.16, 1, 0.3, 1]
+const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+
+/**
+ * Slide-up + fade-in on scroll. CSS/IntersectionObserver implementation
+ * (no framer-motion) — same props and visual behaviour as before.
+ */
 export default function SlideUp({
   children,
   className,
@@ -21,22 +27,19 @@ export default function SlideUp({
   distance = 60,
   once = true,
 }: SlideUpProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: "-80px" });
+  const [ref, inView] = useReveal<HTMLDivElement>(once, "-80px");
 
   return (
-    <motion.div
+    <div
       ref={ref}
       className={className}
-      initial={{ opacity: 0, y: distance }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: distance }}
-      transition={{
-        duration,
-        delay,
-        ease: [0.16, 1, 0.3, 1],
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "none" : `translateY(${distance}px)`,
+        transition: `opacity ${duration}s ${EASE} ${delay}s, transform ${duration}s ${EASE} ${delay}s`,
       }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

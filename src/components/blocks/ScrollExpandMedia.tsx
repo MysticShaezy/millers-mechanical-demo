@@ -9,7 +9,6 @@ import {
   type WheelEvent,
 } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
@@ -44,6 +43,7 @@ const ScrollExpandMedia = ({
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setScrollProgress(0);
     setShowContent(false);
     setMediaFullyExpanded(false);
@@ -175,12 +175,14 @@ const ScrollExpandMedia = ({
     >
       <section className="relative flex flex-col items-center justify-start min-h-[100dvh] bg-black">
         <div className="relative w-full flex flex-col items-center min-h-[100dvh]">
-          {/* Background image — fades out as media expands */}
-          <motion.div
+          {/* Background image — visible immediately (SSR), fades out as media expands.
+              Plain div (NOT motion) with inline opacity so the browser treats it as a
+              stable SSR element. framer-motion would "remove + re-add" it during
+              hydration, disqualifying this full-viewport image as the LCP and forcing
+              LCP onto late-painting text. This is the LCP/FCP element — keep it static. */}
+          <div
             className="absolute inset-0 z-0 h-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 - scrollProgress }}
-            transition={{ duration: 0.1 }}
+            style={{ opacity: 1 - scrollProgress }}
           >
             <Image
               src={bgImageSrc}
@@ -190,9 +192,10 @@ const ScrollExpandMedia = ({
               className="w-screen h-screen"
               style={{ objectFit: "cover", objectPosition: "center" }}
               priority
+              sizes="100vw"
             />
             <div className="absolute inset-0 bg-black/10" />
-          </motion.div>
+          </div>
 
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
             <div className="flex flex-col items-center justify-center w-full h-[100dvh] relative">
@@ -214,12 +217,17 @@ const ScrollExpandMedia = ({
                     className="relative w-full h-full"
                     style={{ opacity: scrollProgress }}
                   >
+                    {/* NOT priority: this card is opacity:0 until the user scrolls,
+                        so preloading it (it's a large image) only steals early
+                        bandwidth from the real LCP/font. It's in-viewport, so it
+                        still loads promptly via the default eager path. */}
                     <Image
                       src={mediaSrc}
                       alt={title || "Media content"}
                       width={1280}
                       height={720}
                       className="w-full h-full object-cover rounded-xl"
+                      sizes="(max-width: 768px) 100vw, 85vw"
                     />
                     <div className="absolute inset-0 bg-black/10 rounded-xl" />
                   </div>
@@ -256,34 +264,39 @@ const ScrollExpandMedia = ({
                   textBlend ? "mix-blend-difference" : "mix-blend-normal"
                 }`}
               >
-                <motion.h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-white transition-none"
+                {/* Plain h2 (NOT motion) — this is the LCP element. framer-motion
+                    re-registers the paint at hydration, inflating LCP render delay
+                    on throttled mobile. The transform is scroll-driven inline style,
+                    so no motion component is needed. */}
+                <h2
+                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-primary transition-none"
                   style={{
                     transform: `translateX(-${textTranslateX}vw)`,
                   }}
                 >
                   {firstWord}
-                </motion.h2>
-                <motion.h2
+                </h2>
+                <h2
                   className="text-6xl md:text-8xl lg:text-9xl font-bold text-center text-white transition-none"
                   style={{
                     transform: `translateX(${textTranslateX}vw)`,
                   }}
                 >
                   {restOfTitle}
-                </motion.h2>
+                </h2>
               </div>
             </div>
 
-            {/* Children content — fades in after expansion */}
-            <motion.section
+            {/* Children content — fades in after expansion (CSS transition, no framer-motion) */}
+            <section
               className="flex flex-col w-full px-4 py-10 md:px-16 lg:py-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: showContent ? 1 : 0 }}
-              transition={{ duration: 0.7 }}
+              style={{
+                opacity: showContent ? 1 : 0,
+                transition: "opacity 0.7s ease-in-out",
+              }}
             >
               {children}
-            </motion.section>
+            </section>
           </div>
         </div>
       </section>

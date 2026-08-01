@@ -52,6 +52,7 @@ export default function ServiceGrid() {
               <Link
                 href={`/services/${featured.slug}`}
                 className="inline-flex items-center gap-2 font-bold text-primary hover:text-white transition-colors group/link"
+                aria-label={`Learn more about ${featured.title}`}
               >
                 Learn More{" "}
                 <ArrowRight
@@ -78,6 +79,7 @@ export default function ServiceGrid() {
                 <Link
                   href={`/services/${service.slug}`}
                   className="inline-flex items-center gap-2 font-bold text-primary hover:text-brand-black transition-colors text-sm group/link"
+                  aria-label={`Learn more about ${service.title}`}
                 >
                   Learn More{" "}
                   <ArrowRight

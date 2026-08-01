@@ -9,7 +9,11 @@ import SkipToContent from "@/components/ui/SkipToContent";
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  display: "swap",
+  // "optional": the title (LCP element) renders immediately in the metric-adjusted
+  // fallback instead of waiting for the web font, so LCP isn't charged for a late
+  // font-swap re-paint. next/font's size-adjusted fallback keeps layout identical
+  // (no CLS). On fast/repeat visits the preloaded font still shows.
+  display: "optional",
 });
 
 export const metadata: Metadata = {

@@ -1,8 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MapPin, Phone, Clock } from "lucide-react";
 import { siteConfig } from "@/data/site";
 import { footerNavigation, serviceNavigation } from "@/data/navigation";
-import Logo from "@/components/ui/Logo";
 
 export default function Footer() {
   return (
@@ -11,7 +11,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Logo variant="light" showShimmer={false} className="mb-6" />
+            <Link href="/" className="inline-block mb-6">
+              <Image
+                src="/assets/transparent-logo-white-removebg-preview.png"
+                alt="Miller Engines & Mechanical"
+                width={180}
+                height={141}
+                className="w-40 h-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+              />
+            </Link>
             <p className="text-gray-400 leading-relaxed">
               Professional vehicle diagnosis and repairs in Toowoomba. Honest,
               reliable automotive care backed by guaranteed workmanship.
@@ -20,7 +28,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-primary">Quick Links</h3>
+            <h3 className="text-lg font-bold mb-6 text-[#ef4444]">Quick Links</h3>
             <ul className="space-y-3">
               {footerNavigation.map((item) => (
                 <li key={item.href}>
@@ -37,7 +45,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-primary">Our Services</h3>
+            <h3 className="text-lg font-bold mb-6 text-[#ef4444]">Our Services</h3>
             <ul className="space-y-3">
               {serviceNavigation.slice(0, 6).map((item) => (
                 <li key={item.href}>
@@ -54,7 +62,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-primary">Contact Us</h3>
+            <h3 className="text-lg font-bold mb-6 text-[#ef4444]">Contact Us</h3>
             <address className="not-italic space-y-4 text-gray-400">
               <div className="flex items-start gap-3">
                 <MapPin
@@ -92,14 +100,14 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-border-dark">
-        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <a
               href={siteConfig.social.facebook}
-              className="hover:text-primary transition-colors"
+              className="hover:text-white transition-colors"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit us on Facebook"
@@ -109,7 +117,7 @@ export default function Footer() {
             <span aria-hidden="true">·</span>
             <a
               href={siteConfig.social.instagram}
-              className="hover:text-primary transition-colors"
+              className="hover:text-white transition-colors"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit us on Instagram"

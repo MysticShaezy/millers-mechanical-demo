@@ -1,0 +1,8 @@
+# Modern baseline — drops unnecessary Next.js polyfills/transforms
+# (Array.prototype.at/flat/flatMap, Object.fromEntries/hasOwn, String.trim*).
+# Covers ~98% of global users; all targets are from early 2022 onward.
+chrome >= 100
+edge >= 100
+firefox >= 100
+safari >= 15.4
+ios_saf >= 15.4

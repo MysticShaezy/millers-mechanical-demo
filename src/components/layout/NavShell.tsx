@@ -8,9 +8,7 @@ import { Phone, Calendar, Menu } from "lucide-react";
 import { mainNavigation } from "@/data/navigation";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
-import Logo from "@/components/ui/Logo";
 import MobileNav from "./MobileNav";
-import TopBar from "./TopBar";
 import { cn } from "@/lib/utils";
 
 /**
@@ -29,7 +27,6 @@ export default function NavShell() {
   const isHomepage = pathname === "/";
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     if (!isHomepage) return;
@@ -45,17 +42,7 @@ export default function NavShell() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHomepage]);
 
-  // Standard scroll detection for non-homepage sticky behavior
-  useEffect(() => {
-    if (isHomepage) return;
 
-    const onScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isHomepage]);
 
   const darkNavContent = (
     <div className="bg-brand-black/95 backdrop-blur-md border-b border-border-dark">
@@ -63,6 +50,13 @@ export default function NavShell() {
         {/* Left — Brand (mirrors left pill) */}
         <Link
           href="/"
+          onClick={(e) => {
+            // On the homepage, "/" is a no-op route change — scroll to the top instead.
+            if (isHomepage) {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
           className="flex items-center gap-2.5 group"
           aria-label="Miller Engines & Mechanical — Home"
         >

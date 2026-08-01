@@ -30,20 +30,20 @@ export default function FeaturesSection() {
                 tools and technology to ensure only the best possible outcome.
               </p>
 
-              <ul className="space-y-4">
+              <div className="space-y-4" role="list">
                 {features.map((feature, i) => (
                   <FadeIn key={feature} delay={0.1 + i * 0.08} direction="left">
-                    <li className="flex items-center gap-4 font-semibold text-brand-dark text-lg">
+                    <div className="flex items-center gap-4 font-semibold text-brand-dark text-lg" role="listitem">
                       <CheckCircle2
                         className="text-primary flex-shrink-0"
                         size={24}
                         aria-hidden="true"
                       />
                       {feature}
-                    </li>
+                    </div>
                   </FadeIn>
                 ))}
-              </ul>
+              </div>
 
               <div className="mt-10 p-6 bg-white rounded-xl border border-border shadow-sm">
                 <p className="text-lg font-semibold text-brand-black mb-1">
