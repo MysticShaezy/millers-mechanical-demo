@@ -77,10 +77,10 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${montserrat.variable} h-full`}>
-      <body className="min-h-full flex flex-col antialiased">
+      <body className="min-h-full flex flex-col antialiased overflow-x-hidden">
         <SkipToContent />
         <NavShell />
-        <main id="main-content" className="flex-1">
+        <main id="main-content" className="flex-1 relative z-10">
           {children}
         </main>
         <Footer />

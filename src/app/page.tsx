@@ -21,11 +21,12 @@ export default function Home() {
       <CinematicHero />
 
       {/* ── Scrollable content — scrolls OVER the fixed hero ──────────── */}
-      <div className="relative z-10">
+      {/* ── Scrollable content — scrolls OVER the fixed hero ──────────── */}
+      <div className="relative z-10 overflow-x-hidden">
         {/* Red banner is the first piece of scrolling content */}
         <HeroBannerTransition />
 
-        {/* Page sections follow naturally */}
+        {/* Page sections follow naturally — solid white bg so hero never peeks */}
         <div className="bg-white pb-[90px] md:pb-0">
           <ServiceGrid />
           <FeaturesSection />

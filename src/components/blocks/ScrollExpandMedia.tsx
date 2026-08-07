@@ -4,9 +4,8 @@ import {
   useEffect,
   useRef,
   useState,
+  useCallback,
   type ReactNode,
-  type TouchEvent,
-  type WheelEvent,
 } from "react";
 import Image from "next/image";
 
@@ -37,12 +36,19 @@ const ScrollExpandMedia = ({
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [showContent, setShowContent] = useState<boolean>(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
-  const [touchStartY, setTouchStartY] = useState<number>(0);
   const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
+  // Use refs for scroll state to avoid re-registering event listeners every frame
+  const progressRef = useRef(0);
+  const expandedRef = useRef(false);
+  const touchStartRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+
   useEffect(() => {
+    progressRef.current = 0;
+    expandedRef.current = false;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setScrollProgress(0);
     setShowContent(false);
@@ -54,104 +60,101 @@ const ScrollExpandMedia = ({
     onProgressChange?.(scrollProgress);
   }, [scrollProgress, onProgressChange]);
 
+  // Sync ref state to React state via rAF for rendering
+  const syncState = useCallback(() => {
+    if (rafRef.current !== null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const p = progressRef.current;
+      const e = expandedRef.current;
+      setScrollProgress(p);
+      setMediaFullyExpanded(e);
+      if (p >= 1 && e) {
+        setShowContent(true);
+      } else if (p < 0.75) {
+        setShowContent(false);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
-        setMediaFullyExpanded(false);
+      if (expandedRef.current && e.deltaY < 0 && window.scrollY <= 5) {
+        expandedRef.current = false;
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+        syncState();
+      } else if (!expandedRef.current) {
         e.preventDefault();
         const scrollDelta = e.deltaY * 0.0009;
         const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
+          Math.max(progressRef.current + scrollDelta, 0),
           1
         );
-        setScrollProgress(newProgress);
+        progressRef.current = newProgress;
 
         if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
+          expandedRef.current = true;
         }
+        syncState();
       }
     };
 
     const handleTouchStart = (e: TouchEvent) => {
-      setTouchStartY(e.touches[0].clientY);
+      touchStartRef.current = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!touchStartY) return;
+      if (!touchStartRef.current) return;
       const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
-        setMediaFullyExpanded(false);
+      const deltaY = touchStartRef.current - touchY;
+      if (expandedRef.current && deltaY < -20 && window.scrollY <= 5) {
+        expandedRef.current = false;
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+        syncState();
+      } else if (!expandedRef.current) {
         e.preventDefault();
         const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
+          Math.max(progressRef.current + scrollDelta, 0),
           1
         );
-        setScrollProgress(newProgress);
+        progressRef.current = newProgress;
         if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
+          expandedRef.current = true;
         }
-        setTouchStartY(touchY);
+        touchStartRef.current = touchY;
+        syncState();
       }
     };
 
     const handleTouchEnd = (): void => {
-      setTouchStartY(0);
+      touchStartRef.current = 0;
     };
 
     const handleScroll = (): void => {
-      if (!mediaFullyExpanded) {
+      if (!expandedRef.current) {
         window.scrollTo(0, 0);
       }
     };
 
-    window.addEventListener(
-      "wheel",
-      handleWheel as unknown as EventListener,
-      { passive: false }
-    );
-    window.addEventListener("scroll", handleScroll as EventListener);
-    window.addEventListener(
-      "touchstart",
-      handleTouchStart as unknown as EventListener,
-      { passive: false }
-    );
-    window.addEventListener(
-      "touchmove",
-      handleTouchMove as unknown as EventListener,
-      { passive: false }
-    );
-    window.addEventListener("touchend", handleTouchEnd as EventListener);
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd);
 
     return () => {
-      window.removeEventListener(
-        "wheel",
-        handleWheel as unknown as EventListener
-      );
-      window.removeEventListener("scroll", handleScroll as EventListener);
-      window.removeEventListener(
-        "touchstart",
-        handleTouchStart as unknown as EventListener
-      );
-      window.removeEventListener(
-        "touchmove",
-        handleTouchMove as unknown as EventListener
-      );
-      window.removeEventListener("touchend", handleTouchEnd as EventListener);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [syncState]); // stable dependency — no more listener thrashing
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -173,13 +176,11 @@ const ScrollExpandMedia = ({
       ref={sectionRef}
       className="transition-colors duration-700 ease-in-out overflow-x-hidden"
     >
-      <section className="relative flex flex-col items-center justify-start min-h-[100dvh] bg-black">
+      <section className="relative flex flex-col items-center justify-start min-h-[100dvh] bg-black overflow-hidden">
         <div className="relative w-full flex flex-col items-center min-h-[100dvh]">
           {/* Background image — visible immediately (SSR), fades out as media expands.
               Plain div (NOT motion) with inline opacity so the browser treats it as a
-              stable SSR element. framer-motion would "remove + re-add" it during
-              hydration, disqualifying this full-viewport image as the LCP and forcing
-              LCP onto late-painting text. This is the LCP/FCP element — keep it static. */}
+              stable SSR element. This is the LCP/FCP element — keep it static. */}
           <div
             className="absolute inset-0 z-0 h-full"
             style={{ opacity: 1 - scrollProgress }}
@@ -217,10 +218,7 @@ const ScrollExpandMedia = ({
                     className="relative w-full h-full"
                     style={{ opacity: scrollProgress }}
                   >
-                    {/* NOT priority: this card is opacity:0 until the user scrolls,
-                        so preloading it (it's a large image) only steals early
-                        bandwidth from the real LCP/font. It's in-viewport, so it
-                        still loads promptly via the default eager path. */}
+                    {/* NOT priority: this card is opacity:0 until the user scrolls */}
                     <Image
                       src={mediaSrc}
                       alt={title || "Media content"}
@@ -264,10 +262,6 @@ const ScrollExpandMedia = ({
                   textBlend ? "mix-blend-difference" : "mix-blend-normal"
                 }`}
               >
-                {/* Plain h2 (NOT motion) — this is the LCP element. framer-motion
-                    re-registers the paint at hydration, inflating LCP render delay
-                    on throttled mobile. The transform is scroll-driven inline style,
-                    so no motion component is needed. */}
                 <h2
                   className="text-6xl md:text-8xl lg:text-9xl font-bold text-primary transition-none"
                   style={{
@@ -287,7 +281,7 @@ const ScrollExpandMedia = ({
               </div>
             </div>
 
-            {/* Children content — fades in after expansion (CSS transition, no framer-motion) */}
+            {/* Children content — fades in after expansion (CSS transition) */}
             <section
               className="flex flex-col w-full px-4 py-10 md:px-16 lg:py-20"
               style={{
