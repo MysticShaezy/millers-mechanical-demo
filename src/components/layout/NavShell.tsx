@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Calendar, Menu } from "lucide-react";
+import { Phone, Calendar, Clock, Menu } from "lucide-react";
 import { mainNavigation } from "@/data/navigation";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
@@ -27,6 +27,8 @@ export default function NavShell() {
   const isHomepage = pathname === "/";
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
+  const [showHours, setShowHours] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
 
   useEffect(() => {
     if (!isHomepage) return;
@@ -90,8 +92,18 @@ export default function NavShell() {
           ))}
         </nav>
 
-        {/* Right — Phone + Book (mirrors right pill) */}
-        <div className="flex items-center gap-2">
+        {/* Right — Clock + Phone + Book + Hamburger */}
+        <div className="flex items-center gap-2 relative">
+          {/* Mobile clock icon with dropdown */}
+          <button
+            className="md:hidden flex items-center justify-center p-2 text-white/80 hover:text-white transition-colors rounded-full"
+            onClick={() => { setShowHours(!showHours); setShowPhone(false); }}
+            aria-label="View opening hours"
+          >
+            <Clock size={16} />
+          </button>
+
+          {/* Desktop phone (full text) */}
           <a
             href={`tel:${siteConfig.phone}`}
             onClick={() => analytics.ctaClick("nav_call")}
@@ -101,13 +113,24 @@ export default function NavShell() {
             <Phone size={16} />
             <span className="text-sm">{siteConfig.phoneFormatted}</span>
           </a>
+
+          {/* Mobile phone icon with dropdown */}
+          <button
+            className="md:hidden flex items-center justify-center p-2 text-white/80 hover:text-white transition-colors rounded-full"
+            onClick={() => { setShowPhone(!showPhone); setShowHours(false); }}
+            aria-label="View phone number"
+          >
+            <Phone size={16} />
+          </button>
+
+          {/* Book Service CTA — visible on all sizes */}
           <a
             href="/contact"
             onClick={() => analytics.ctaClick("nav_book")}
-            className="hidden md:flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-bold px-5 py-2 rounded-full transition-colors shadow-glow min-h-[40px] text-sm"
+            className="flex items-center gap-1.5 bg-primary hover:bg-primary-hover text-white font-bold px-3 py-1.5 md:px-5 md:py-2 rounded-full transition-colors shadow-glow min-h-[32px] md:min-h-[40px] text-[11px] md:text-sm"
           >
-            <Calendar size={16} />
-            <span>Book Service</span>
+            <Calendar size={14} className="md:w-4 md:h-4" />
+            <span className="whitespace-nowrap">Book</span>
           </a>
 
           {/* Mobile hamburger */}
@@ -120,6 +143,24 @@ export default function NavShell() {
           >
             <Menu size={24} />
           </button>
+
+          {/* Mobile Hours Dropdown */}
+          {showHours && (
+            <div className="absolute top-full right-0 mt-2 z-50 md:hidden bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl">
+              <p className="text-xs font-bold text-white/50 mb-1 uppercase tracking-wider">Trading Hours</p>
+              <p className="text-sm text-white">{siteConfig.hours.formatted}</p>
+            </div>
+          )}
+
+          {/* Mobile Phone Dropdown */}
+          {showPhone && (
+            <div className="absolute top-full right-0 mt-2 z-50 md:hidden bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl">
+              <p className="text-xs font-bold text-white/50 mb-1 uppercase tracking-wider">Call Us</p>
+              <a href={`tel:${siteConfig.phone}`} className="text-sm text-white font-semibold hover:text-primary transition-colors block">
+                {siteConfig.phoneFormatted}
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>
