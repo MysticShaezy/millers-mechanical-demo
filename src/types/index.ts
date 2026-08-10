@@ -57,6 +57,7 @@ export interface SiteConfig {
     open: string;
     close: string;
     formatted: string;
+    schedules: { days: string; hours: string }[];
   };
   social: {
     facebook: string;
