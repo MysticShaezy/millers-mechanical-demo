@@ -277,7 +277,7 @@ const ScrollExpandMedia = ({
                   {firstWord}
                 </h2>
                 <h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-center hero-text-red transition-none"
+                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-center hero-text-red hero-text-script transition-none"
                   style={{
                     transform: `translateX(${textTranslateX}vw)`,
                   }}
