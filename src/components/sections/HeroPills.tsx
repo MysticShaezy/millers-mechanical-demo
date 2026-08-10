@@ -22,8 +22,8 @@ interface HeroPillsProps {
  * LEFT pill: Brand logo + "MILLER ENGINES" + hours
  * RIGHT pill: Phone number + "Book Service" CTA + mobile hamburger
  *
- * As `progress` goes from 0→1, the pills fade out and slide up,
- * visually merging into the sticky nav bar that appears.
+ * Below 1200px (nav: breakpoint), pills merge into a single bar.
+ * Above 1200px, they appear as two separate floating pills.
  */
 export default function HeroPills({
   progress,
@@ -48,14 +48,14 @@ export default function HeroPills({
         transition: "opacity 0.15s ease-out, transform 0.15s ease-out",
       }}
     >
-      <div className="flex w-full px-4 pt-4 md:px-6 md:pt-5 relative">
-        <div className="pointer-events-auto flex items-center justify-between w-full bg-brand-black/90 backdrop-blur-md rounded-full px-3 py-2 border border-border-dark shadow-2xl md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none md:p-0 md:w-full">
+      <div className="flex w-full px-4 pt-4 nav:px-6 nav:pt-5 relative">
+        <div className="pointer-events-auto flex items-center justify-between w-full bg-brand-black/90 backdrop-blur-md rounded-full px-3 py-2 border border-border-dark shadow-2xl nav:bg-transparent nav:backdrop-blur-none nav:border-none nav:shadow-none nav:p-0 nav:w-full">
           
           {/* ── LEFT SECTION — Brand + Hours ─────────────────────────────── */}
-          <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink md:bg-brand-black/90 md:backdrop-blur-md md:rounded-full md:px-4 md:py-2.5 md:border md:border-border-dark md:shadow-2xl">
+          <div className="flex items-center gap-1.5 nav:gap-2 min-w-0 flex-shrink nav:bg-brand-black/90 nav:backdrop-blur-md nav:rounded-full nav:px-4 nav:py-2.5 nav:border nav:border-border-dark nav:shadow-2xl">
             <Link
               href="/"
-              className="flex items-center gap-1.5 md:gap-2 min-h-[36px] min-w-0 overflow-hidden px-2 md:px-0"
+              className="flex items-center gap-1.5 nav:gap-2 min-h-[36px] min-w-0 overflow-hidden px-2 nav:px-0"
               aria-label="Miller Engines & Mechanical — Home"
             >
               <Image
@@ -63,22 +63,22 @@ export default function HeroPills({
                 alt=""
                 width={32}
                 height={32}
-                className="w-6 h-6 md:w-8 md:h-8 object-contain flex-shrink-0"
+                className="w-6 h-6 nav:w-8 nav:h-8 object-contain flex-shrink-0"
                 aria-hidden="true"
               />
-              <span className="hidden md:inline text-white font-bold md:text-sm tracking-tight truncate min-w-0">
+              <span className="hidden nav:inline text-white font-bold nav:text-sm tracking-tight truncate min-w-0">
                 MILLER ENGINES
               </span>
             </Link>
 
             {/* Divider + hours — desktop only */}
             <span
-              className="hidden md:block text-white/20 text-lg select-none"
+              className="hidden nav:block text-white/20 text-lg select-none"
               aria-hidden="true"
             >
               |
             </span>
-            <div className="hidden md:flex items-center gap-3 text-white/60">
+            <div className="hidden nav:flex items-center gap-3 text-white/60">
               {siteConfig.hours.schedules.map((s, i) => (
                 <span key={s.days} className="flex items-center gap-1.5">
                   {i === 0 && <Clock size={14} aria-hidden="true" />}
@@ -94,7 +94,7 @@ export default function HeroPills({
 
             {/* Mobile Clock Icon (Toggles Dropdown) */}
             <button
-              className="md:hidden flex items-center justify-center p-1.5 text-white/80 hover:text-white transition-colors rounded-full flex-shrink-0 relative"
+              className="nav:hidden flex items-center justify-center p-1.5 text-white/80 hover:text-white transition-colors rounded-full flex-shrink-0 relative"
               onClick={() => {
                 setShowHours(!showHours);
                 setShowPhone(false);
@@ -106,12 +106,12 @@ export default function HeroPills({
           </div>
 
           {/* ── RIGHT SECTION — Phone + Book + Mobile Menu ──────────────── */}
-          <div className="flex items-center gap-3 md:gap-1.5 flex-shrink-0 md:bg-brand-black/90 md:backdrop-blur-md md:rounded-full md:px-2.5 md:py-2.5 md:border md:border-border-dark md:shadow-2xl">
+          <div className="flex items-center gap-3 nav:gap-1.5 flex-shrink-0 nav:bg-brand-black/90 nav:backdrop-blur-md nav:rounded-full nav:px-2.5 nav:py-2.5 nav:border nav:border-border-dark nav:shadow-2xl">
             {/* Desktop Phone */}
             <a
               href={`tel:${siteConfig.phone}`}
               onClick={() => analytics.ctaClick("hero_pill_call")}
-              className="hidden md:flex items-center gap-2 px-4 py-2 text-white font-semibold hover:text-primary transition-colors rounded-full min-h-[36px]"
+              className="hidden nav:flex items-center gap-2 px-4 py-2 text-white font-semibold hover:text-primary transition-colors rounded-full min-h-[36px]"
               aria-label={`Call Miller Engines at ${siteConfig.phoneFormatted}`}
             >
               <Phone size={16} />
@@ -122,7 +122,7 @@ export default function HeroPills({
 
             {/* Mobile Phone Icon (Toggles Dropdown) */}
             <button
-              className="md:hidden flex items-center justify-center p-1.5 text-white/80 hover:text-white transition-colors rounded-full flex-shrink-0 relative"
+              className="nav:hidden flex items-center justify-center p-1.5 text-white/80 hover:text-white transition-colors rounded-full flex-shrink-0 relative"
               onClick={() => {
                 setShowPhone(!showPhone);
                 setShowHours(false);
@@ -136,15 +136,15 @@ export default function HeroPills({
             <a
               href="/contact"
               onClick={() => analytics.ctaClick("hero_pill_book")}
-              className="flex items-center gap-1.5 bg-primary hover:bg-primary-hover text-white font-bold px-3 py-1.5 md:px-5 md:py-2 rounded-full transition-colors shadow-glow min-h-[32px] md:min-h-[36px] text-[11px] md:text-sm flex-shrink-0"
+              className="flex items-center gap-1.5 bg-primary hover:bg-primary-hover text-white font-bold px-3 py-1.5 nav:px-5 nav:py-2 rounded-full transition-colors shadow-glow min-h-[32px] nav:min-h-[36px] text-[11px] nav:text-sm flex-shrink-0"
             >
-              <Calendar size={14} className="md:w-4 md:h-4" />
+              <Calendar size={14} className="nav:w-4 nav:h-4" />
               <span className="whitespace-nowrap">Book</span>
             </a>
 
             {/* Hamburger — mobile only */}
             <button
-              className="md:hidden flex items-center justify-center p-1.5 mx-0.5 text-white hover:text-primary transition-colors rounded-full flex-shrink-0"
+              className="nav:hidden flex items-center justify-center p-1.5 mx-0.5 text-white hover:text-primary transition-colors rounded-full flex-shrink-0"
               onClick={onMobileMenuOpen}
               aria-label="Open navigation menu"
             >
@@ -155,7 +155,7 @@ export default function HeroPills({
         
         {/* Mobile Hours Dropdown Bubble */}
         {showHours && (
-          <div className="absolute top-[64px] left-6 z-50 md:hidden pointer-events-auto bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-[64px] left-6 z-50 nav:hidden pointer-events-auto bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
             <p className="text-xs font-bold text-white/50 mb-2 uppercase tracking-wider">Trading Hours</p>
             <div className="space-y-1">
               {siteConfig.hours.schedules.map((s) => (
@@ -169,7 +169,7 @@ export default function HeroPills({
 
         {/* Mobile Phone Dropdown Bubble */}
         {showPhone && (
-          <div className="absolute top-[64px] right-24 z-50 md:hidden pointer-events-auto bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-[64px] right-24 z-50 nav:hidden pointer-events-auto bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
             <p className="text-xs font-bold text-white/50 mb-1 uppercase tracking-wider">Call Us</p>
             <a href={`tel:${siteConfig.phone}`} className="text-sm text-white font-semibold hover:text-primary transition-colors block">
               {siteConfig.phoneFormatted}
