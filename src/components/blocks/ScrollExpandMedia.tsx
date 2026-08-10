@@ -284,7 +284,16 @@ const ScrollExpandMedia = ({
                 >
                   {restOfTitle}
                 </h2>
-                <p className="text-white text-sm md:text-lg lg:text-xl font-normal tracking-wide mt-2 md:mt-4 text-center max-w-2xl mx-auto transition-none" style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}>
+                <p
+                  className="text-white text-sm md:text-lg lg:text-xl font-semibold tracking-widest uppercase mt-2 md:mt-4 text-center max-w-2xl mx-auto transition-none"
+                  style={{
+                    fontFamily: 'var(--font-montserrat), sans-serif',
+                    WebkitTextStroke: '0.5px rgba(0, 0, 0, 0.7)',
+                    paintOrder: 'stroke fill',
+                    textShadow: '0 1px 4px rgba(0, 0, 0, 0.6)',
+                    opacity: Math.max(1 - textTranslateX / 8, 0),
+                  }}
+                >
                   offer a full range of mechanical servicing, repair and maintenance services.
                 </p>
               </div>
