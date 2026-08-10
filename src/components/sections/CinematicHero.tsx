@@ -94,10 +94,16 @@ export default function CinematicHero() {
             className="w-[70vw] flex flex-col items-center gap-4 text-center"
             style={{ transform: `scale(${logoScale})`, maxWidth: "min(700px, 90vw)" }}
           >
-            <p className="text-white text-2xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]">
+            <p
+              className="text-white text-2xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]"
+              style={{ WebkitTextStroke: '0.5px rgba(0, 0, 0, 0.6)', paintOrder: 'stroke fill' }}
+            >
               Come See Our Trusted Local Team Today
             </p>
-            <p className="text-white/70 text-sm md:text-lg max-w-md">
+            <p
+              className="text-white/70 text-sm md:text-lg max-w-md"
+              style={{ WebkitTextStroke: '0.3px rgba(0, 0, 0, 0.5)', paintOrder: 'stroke fill' }}
+            >
               Toowoomba&apos;s most reliable engine &amp; mechanical workshop since 2017.
             </p>
           </div>
