@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import ScrollExpandMedia from "@/components/blocks/ScrollExpandMedia";
 import HeroPills from "@/components/sections/HeroPills";
 import MobileNav from "@/components/layout/MobileNav";
@@ -92,21 +91,15 @@ export default function CinematicHero() {
           }}
         >
           <div
-            className="w-[70vw] flex flex-col items-center gap-4"
-            style={{ transform: `scale(${logoScale})`, maxWidth: "min(600px, 85vw)" }}
+            className="w-[70vw] flex flex-col items-center gap-4 text-center"
+            style={{ transform: `scale(${logoScale})`, maxWidth: "min(700px, 90vw)" }}
           >
-            {/* NOT priority: the logo starts at opacity 0 and only fades in as the
-                hero expands on scroll. Preloading it steals early bandwidth from the
-                real LCP (hero background + title font). It loads promptly anyway. */}
-            <Image
-              src="/assets/transparent-logo-white-removebg-preview.png"
-              alt="Miller Engines & Mechanical"
-              width={600}
-              height={470}
-              className="drop-shadow-[0_0_60px_rgba(255,255,255,0.3)]"
-              style={{ width: "100%", height: "auto" }}
-              sizes="(max-width: 768px) 300px, 600px"
-            />
+            <p className="text-white text-2xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]">
+              Come See Our Trusted Local Team Today
+            </p>
+            <p className="text-white/70 text-sm md:text-lg max-w-md">
+              Toowoomba&apos;s most reliable engine &amp; mechanical workshop — since 2017.
+            </p>
           </div>
         </div>
 
