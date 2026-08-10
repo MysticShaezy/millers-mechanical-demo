@@ -78,11 +78,18 @@ export default function HeroPills({
             >
               |
             </span>
-            <div className="hidden md:flex items-center gap-1.5 text-white/60">
-              <Clock size={14} aria-hidden="true" />
-              <span className="text-xs whitespace-nowrap">
-                {siteConfig.hours.formatted}
-              </span>
+            <div className="hidden md:flex items-center gap-3 text-white/60">
+              {siteConfig.hours.schedules.map((s, i) => (
+                <span key={s.days} className="flex items-center gap-1.5">
+                  {i === 0 && <Clock size={14} aria-hidden="true" />}
+                  <span className="text-xs whitespace-nowrap">
+                    {s.days}: {s.hours}
+                  </span>
+                  {i < siteConfig.hours.schedules.length - 1 && (
+                    <span className="text-white/20 ml-1.5" aria-hidden="true">|</span>
+                  )}
+                </span>
+              ))}
             </div>
 
             {/* Mobile Clock Icon (Toggles Dropdown) */}
@@ -149,8 +156,14 @@ export default function HeroPills({
         {/* Mobile Hours Dropdown Bubble */}
         {showHours && (
           <div className="absolute top-[64px] left-6 z-50 md:hidden pointer-events-auto bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
-            <p className="text-xs font-bold text-white/50 mb-1 uppercase tracking-wider">Trading Hours</p>
-            <p className="text-sm text-white">{siteConfig.hours.formatted}</p>
+            <p className="text-xs font-bold text-white/50 mb-2 uppercase tracking-wider">Trading Hours</p>
+            <div className="space-y-1">
+              {siteConfig.hours.schedules.map((s) => (
+                <p key={s.days} className="text-sm text-white">
+                  <span className="text-white/60">{s.days}:</span> {s.hours}
+                </p>
+              ))}
+            </div>
           </div>
         )}
 

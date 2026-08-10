@@ -26,10 +26,15 @@ export const siteConfig: SiteConfig = {
   email: "info@millerengines.com.au",
 
   hours: {
-    days: "Mon – Fri",
+    days: "Mon – Thu",
     open: "08:00",
     close: "17:00",
-    formatted: "Mon – Fri: 8:00 AM – 5:00 PM",
+    formatted: "Mon – Thu: 8:00 AM – 5:00 PM",
+    schedules: [
+      { days: "Mon – Thu", hours: "8:00 AM – 5:00 PM" },
+      { days: "Fri", hours: "8:00 AM – 12:00 PM" },
+      { days: "Sat & Sun", hours: "Closed" },
+    ],
   },
 
   social: {
@@ -66,12 +71,20 @@ export function getLocalBusinessSchema() {
       latitude: siteConfig.coordinates.lat,
       longitude: siteConfig.coordinates.lng,
     },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: siteConfig.hours.open,
-      closes: siteConfig.hours.close,
-    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
+        opens: "08:00",
+        closes: "17:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Friday"],
+        opens: "08:00",
+        closes: "12:00",
+      },
+    ],
     priceRange: "$$",
     image: `${siteConfig.url}/assets/hero-car.jpg`,
   };

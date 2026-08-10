@@ -85,13 +85,19 @@ export default function Footer() {
                   {siteConfig.phoneFormatted}
                 </a>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-start gap-3">
                 <Clock
                   size={18}
-                  className="text-primary flex-shrink-0"
+                  className="text-primary flex-shrink-0 mt-1"
                   aria-hidden="true"
                 />
-                <span>{siteConfig.hours.formatted}</span>
+                <div className="space-y-0.5">
+                  {siteConfig.hours.schedules.map((s) => (
+                    <p key={s.days}>
+                      <span className="text-gray-500">{s.days}:</span> {s.hours}
+                    </p>
+                  ))}
+                </div>
               </div>
             </address>
           </div>

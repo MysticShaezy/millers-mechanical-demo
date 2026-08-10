@@ -147,8 +147,14 @@ export default function NavShell() {
           {/* Mobile Hours Dropdown */}
           {showHours && (
             <div className="absolute top-full right-0 mt-2 z-50 md:hidden bg-brand-black/95 backdrop-blur-md border border-border-dark rounded-xl px-4 py-3 shadow-xl">
-              <p className="text-xs font-bold text-white/50 mb-1 uppercase tracking-wider">Trading Hours</p>
-              <p className="text-sm text-white">{siteConfig.hours.formatted}</p>
+              <p className="text-xs font-bold text-white/50 mb-2 uppercase tracking-wider">Trading Hours</p>
+              <div className="space-y-1">
+                {siteConfig.hours.schedules.map((s) => (
+                  <p key={s.days} className="text-sm text-white">
+                    <span className="text-white/60">{s.days}:</span> {s.hours}
+                  </p>
+                ))}
+              </div>
             </div>
           )}
 
