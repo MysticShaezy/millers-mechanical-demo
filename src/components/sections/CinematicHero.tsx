@@ -98,7 +98,7 @@ export default function CinematicHero() {
               Come See Our Trusted Local Team Today
             </p>
             <p className="text-white/70 text-sm md:text-lg max-w-md">
-              Toowoomba&apos;s most reliable engine &amp; mechanical workshop — since 2017.
+              Toowoomba&apos;s most reliable engine &amp; mechanical workshop since 2017.
             </p>
           </div>
         </div>
