@@ -16,17 +16,18 @@ export default function Testimonials() {
           />
         </FadeIn>
 
-        <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-3 gap-6 pb-8 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
+        {/* Mobile: vertical stack | Desktop: 3-column grid */}
+        <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-6">
           {reviews.map((review, i) => (
-            <FadeIn key={review.id} delay={0.1 + i * 0.1} className="min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center flex-shrink-0 md:flex-shrink">
-              <Card dark className="h-full">
+            <FadeIn key={review.id} delay={0.1 + i * 0.1}>
+              <Card dark className="h-full p-5 md:p-8">
                 {/* Stars */}
-                <div className="flex gap-1 mb-4" role="img" aria-label={`${review.rating} out of 5 stars`}>
+                <div className="flex gap-1 mb-3 md:mb-4" role="img" aria-label={`${review.rating} out of 5 stars`}>
                   {Array.from({ length: review.rating }).map((_, idx) => (
                     <Star
                       key={idx}
-                      size={18}
-                      className="text-yellow-400"
+                      size={16}
+                      className="text-yellow-400 md:w-[18px] md:h-[18px]"
                       fill="currentColor"
                       aria-hidden="true"
                     />
@@ -34,21 +35,21 @@ export default function Testimonials() {
                 </div>
 
                 {/* Review text */}
-                <blockquote className="text-gray-300 mb-6 leading-relaxed italic">
+                <blockquote className="text-gray-300 mb-4 md:mb-6 leading-relaxed italic text-sm md:text-base">
                   &ldquo;{review.text}&rdquo;
                 </blockquote>
 
                 {/* Attribution */}
-                <div className="flex justify-between items-center text-sm border-t border-border-dark pt-4">
+                <div className="flex justify-between items-center text-sm border-t border-border-dark pt-3 md:pt-4">
                   <div>
-                    <span className="font-bold text-white block">
+                    <span className="font-bold text-white block text-sm">
                       {review.name}
                     </span>
                     {review.source === "sample" && (
                       <span className="text-xs text-gray-600">Sample Review</span>
                     )}
                   </div>
-                  <span className="text-gray-600">{review.date}</span>
+                  <span className="text-gray-600 text-xs md:text-sm">{review.date}</span>
                 </div>
               </Card>
             </FadeIn>
@@ -56,7 +57,7 @@ export default function Testimonials() {
         </div>
 
         <FadeIn delay={0.4}>
-          <div className="mt-12 text-center">
+          <div className="mt-8 md:mt-12 text-center">
             <p className="text-gray-500 text-sm">
               Reviews sourced from verified customers.{" "}
               <a
