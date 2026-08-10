@@ -284,6 +284,9 @@ const ScrollExpandMedia = ({
                 >
                   {restOfTitle}
                 </h2>
+                <p className="text-white text-sm md:text-lg lg:text-xl font-normal tracking-wide mt-2 md:mt-4 text-center max-w-2xl mx-auto transition-none" style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}>
+                  offer a full range of mechanical servicing, repair and maintenance services.
+                </p>
               </div>
             </div>
 
