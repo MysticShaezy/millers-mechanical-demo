@@ -84,7 +84,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${montserrat.variable} ${lobster.variable} h-full`}>
-      <body className="min-h-full flex flex-col antialiased overflow-x-hidden">
+      <body className="min-h-full flex flex-col antialiased overflow-x-hidden bg-brand-black">
         <SkipToContent />
         <NavShell />
         <main id="main-content" className="flex-1 relative z-10">
