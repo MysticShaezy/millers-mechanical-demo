@@ -269,7 +269,7 @@ const ScrollExpandMedia = ({
                     on throttled mobile. The transform is scroll-driven inline style,
                     so no motion component is needed. */}
                 <h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold hero-text-red transition-none"
+                  className="text-6xl md:text-8xl lg:text-9xl font-bold hero-text-red hero-text-script transition-none"
                   style={{
                     transform: `translateX(-${textTranslateX}vw)`,
                   }}
@@ -277,7 +277,7 @@ const ScrollExpandMedia = ({
                   {firstWord}
                 </h2>
                 <h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-center hero-text-white transition-none"
+                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-center hero-text-red transition-none"
                   style={{
                     transform: `translateX(${textTranslateX}vw)`,
                   }}

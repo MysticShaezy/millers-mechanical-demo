@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Lobster } from "next/font/google";
 import "./globals.css";
 import { siteConfig, getLocalBusinessSchema } from "@/data/site";
 import NavShell from "@/components/layout/NavShell";
@@ -14,6 +14,13 @@ const montserrat = Montserrat({
   // font-swap re-paint. next/font's size-adjusted fallback keeps layout identical
   // (no CLS). On fast/repeat visits the preloaded font still shows.
   display: "optional",
+});
+
+const lobster = Lobster({
+  variable: "--font-script",
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -76,7 +83,7 @@ export default function RootLayout({
   const jsonLd = getLocalBusinessSchema();
 
   return (
-    <html lang="en" className={`${montserrat.variable} h-full`}>
+    <html lang="en" className={`${montserrat.variable} ${lobster.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased overflow-x-hidden">
         <SkipToContent />
         <NavShell />
