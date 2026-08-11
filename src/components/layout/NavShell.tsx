@@ -35,9 +35,9 @@ export default function NavShell() {
 
     const onScroll = () => {
       // Nav appears when the red banner reaches the top of the viewport.
-      // The spacer is 100vh, so scrollY >= vh means the scrollable content
-      // (starting with the banner) has reached the top.
-      setNavVisible(window.scrollY >= window.innerHeight);
+      // The spacer is 200dvh (100dvh expansion runway + 100dvh rise), so the
+      // scrollable content (starting with the banner) reaches the top at 2×vh.
+      setNavVisible(window.scrollY >= 2 * window.innerHeight);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });

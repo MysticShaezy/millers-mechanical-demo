@@ -11,8 +11,10 @@ export default function StickyConversionDock() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show after scrolling past hero (roughly 80vh)
-      setIsVisible(window.scrollY > window.innerHeight * 0.8);
+      // Show once the page content starts rising over the hero.
+      // The 200dvh spacer means expansion finishes at 1×vh; 1.8×vh keeps the
+      // same "shortly before the banner tops out" timing as before.
+      setIsVisible(window.scrollY > window.innerHeight * 1.8);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });

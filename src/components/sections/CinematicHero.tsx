@@ -10,17 +10,17 @@ import MobileNav from "@/components/layout/MobileNav";
  *
  * Architecture:
  *   LAYER 1 (fixed): Nav pills + workshop image + logo — never moves.
- *   SPACER:          An empty div (100vh) pushes scrollable content below the fold.
+ *   SPACER:          An empty div (200dvh) provides the scroll runway.
  *   LAYER 2 (flow):  Red banner + page content scroll naturally over the hero.
  *
- * Phase 1 (ScrollExpandMedia, custom scroll lock):
- *   Workshop expands from card → full viewport.
+ * Phase 1 (scrollY 0→vh, native scroll — no event hijacking):
+ *   Workshop expands from card → full viewport as a function of scrollY.
  *   Text splits. Logo fades/scales in simultaneously.
  *   Pills visible throughout.
  *
- * After Phase 1 completes, native scroll takes over.
- * The red banner and page content scroll UP over the fixed hero.
- * Pills fade out as content covers the hero, merging into NavShell.
+ * Phase 2 (scrollY vh→2vh):
+ *   The red banner and page content scroll UP over the fixed hero.
+ *   Pills fade out as content covers the hero, merging into NavShell.
  */
 export default function CinematicHero() {
   const [expandProgress, setExpandProgress] = useState(0);
@@ -35,19 +35,22 @@ export default function CinematicHero() {
     window.dispatchEvent(resetEvent);
   }, []);
 
-  // Track scroll for pill fade-out AND Phase B logo zoom
+  // Track scroll for pill fade-out AND Phase B logo zoom.
+  // Scroll map (spacer = 200dvh):
+  //   scrollY 0→vh   — expansion runway (ScrollExpandMedia drives progress 0→1)
+  //   scrollY vh→2vh — banner + content rise over the fixed hero
+  //   scrollY = 2vh  — banner reaches the top; pills hand off to NavShell
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      const vh = window.innerHeight;
-      // Pills stay visible until the red banner reaches the TOP of the viewport.
-      // Banner's top edge hits the top of the viewport exactly at scrollY = vh.
-      // Start fading out exactly at that moment over a quick 50px scroll.
-      const fadeStart = vh;
+      const vh = Math.max(window.innerHeight, 1);
+      // Pills stay visible until the red banner reaches the TOP of the viewport
+      // (scrollY = 2vh), then fade out over a quick 50px of scroll.
+      const fadeStart = 2 * vh;
       const progress = Math.min(Math.max((y - fadeStart) / 50, 0), 1);
       setPillProgress(progress);
-      // Phase B: logo continues scaling as banner scrolls up (scrollY 0→vh)
-      setScrollExtraScale(Math.min(y / Math.max(vh, 1), 1) * 0.25);
+      // Phase B: logo continues scaling as the banner scrolls up (scrollY vh→2vh)
+      setScrollExtraScale(Math.min(Math.max((y - vh) / vh, 0), 1) * 0.25);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -117,8 +120,13 @@ export default function CinematicHero() {
         />
       </div>
 
-      {/* ── SPACER: pushes scrollable content below the viewport ──────── */}
-      <div className="h-dvh" aria-hidden="true" />
+      {/* ── SPACER: 200dvh scroll runway ────────────────────────────────
+          First 100dvh of native scroll drives the hero expansion
+          (ScrollExpandMedia maps scrollY/innerHeight → progress).
+          The second 100dvh is the stretch where the banner + content
+          rise over the fixed hero — same sequence as before, but the
+          browser owns the scroll (no touch hijacking). */}
+      <div className="h-[200dvh]" aria-hidden="true" />
 
       {/* Mobile nav drawer (triggered by pill hamburger) */}
       <MobileNav
