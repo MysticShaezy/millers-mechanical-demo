@@ -163,7 +163,7 @@ const ScrollExpandMedia = ({
   }, []);
 
   const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
-  const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
+  const mediaHeight = 300 + scrollProgress * (isMobileState ? 280 : 500);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
   const firstWord = title ? title.split(" ")[0] : "";
   const restOfTitle = title ? title.split(" ").slice(1).join(" ") : "";
@@ -226,7 +226,7 @@ const ScrollExpandMedia = ({
                       alt={title || "Media content"}
                       width={1280}
                       height={720}
-                      className="w-full h-full object-cover rounded-xl"
+                      className="w-full h-full object-cover object-center rounded-xl"
                       sizes="(max-width: 768px) 100vw, 85vw"
                     />
                     <div className="absolute inset-0 bg-black/10 rounded-xl" />
