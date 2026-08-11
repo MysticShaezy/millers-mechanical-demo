@@ -21,7 +21,8 @@ export default function Home() {
       <CinematicHero />
 
       {/* ── Scrollable content — scrolls OVER the fixed hero ──────────── */}
-      <div className="relative z-10 overflow-x-hidden -mt-px">
+      {/* ── Scrollable content — scrolls OVER the fixed hero ──────────── */}
+      <div className="relative z-10 overflow-x-hidden">
         {/* Red banner is the first piece of scrolling content */}
         <HeroBannerTransition />
 

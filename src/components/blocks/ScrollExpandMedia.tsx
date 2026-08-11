@@ -163,7 +163,7 @@ const ScrollExpandMedia = ({
   }, []);
 
   const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
-  const mediaHeight = 400 + scrollProgress * (isMobileState ? 350 : 400);
+  const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
   const firstWord = title ? title.split(" ")[0] : "";
   const restOfTitle = title ? title.split(" ").slice(1).join(" ") : "";
@@ -189,8 +189,8 @@ const ScrollExpandMedia = ({
               alt="Background"
               width={1920}
               height={1080}
-              className="w-screen h-screen object-contain md:object-cover"
-              style={{ objectPosition: "center" }}
+              className="w-screen h-screen"
+              style={{ objectFit: "cover", objectPosition: "center" }}
               priority
               sizes="100vw"
             />
@@ -206,7 +206,7 @@ const ScrollExpandMedia = ({
                   width: `${mediaWidth}px`,
                   height: `${mediaHeight}px`,
                   maxWidth: "95vw",
-                  maxHeight: "90vh",
+                  maxHeight: "85vh",
                   boxShadow: `0px 0px 50px rgba(0, 0, 0, ${0.3 * scrollProgress})`,
                   backgroundColor: "transparent",
                   overflow: "hidden",
@@ -226,7 +226,7 @@ const ScrollExpandMedia = ({
                       alt={title || "Media content"}
                       width={1280}
                       height={720}
-                      className="w-full h-full object-contain md:object-cover rounded-xl"
+                      className="w-full h-full object-cover rounded-xl"
                       sizes="(max-width: 768px) 100vw, 85vw"
                     />
                     <div className="absolute inset-0 bg-black/10 rounded-xl" />
