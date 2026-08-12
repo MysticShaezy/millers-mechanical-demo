@@ -202,9 +202,11 @@ const ScrollExpandMedia = ({
                 }`}
               >
                 {/* Plain h2 (NOT motion) — this is the LCP element. The transform
-                    is scroll-driven inline style, so no motion component is needed. */}
+                    is scroll-driven inline style, so no motion component is needed.
+                    hero-text-red + hero-text-script = Lobster script, red fill,
+                    white outline, black glow (matches the Miller logo). */}
                 <h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-primary transition-none"
+                  className="text-6xl md:text-8xl lg:text-9xl font-bold hero-text-red hero-text-script transition-none"
                   style={{
                     transform: `translateX(-${textTranslateX}vw)`,
                   }}
@@ -212,13 +214,25 @@ const ScrollExpandMedia = ({
                   {firstWord}
                 </h2>
                 <h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-center text-white transition-none"
+                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-center hero-text-red hero-text-script transition-none"
                   style={{
                     transform: `translateX(${textTranslateX}vw)`,
                   }}
                 >
                   {restOfTitle}
                 </h2>
+                <p
+                  className="text-white text-sm md:text-lg lg:text-xl font-semibold tracking-widest uppercase mt-2 md:mt-4 text-center max-w-2xl mx-auto transition-none"
+                  style={{
+                    fontFamily: 'var(--font-montserrat), sans-serif',
+                    WebkitTextStroke: '0.5px rgba(0, 0, 0, 0.7)',
+                    paintOrder: 'stroke fill',
+                    textShadow: '0 1px 4px rgba(0, 0, 0, 0.6)',
+                    opacity: Math.max(1 - textTranslateX / 8, 0),
+                  }}
+                >
+                  offer a full range of mechanical servicing, repair and maintenance services.
+                </p>
               </div>
             </div>
 

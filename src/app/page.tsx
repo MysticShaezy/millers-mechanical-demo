@@ -22,8 +22,6 @@ export default function Home() {
 
       {/* ── Scrollable content — scrolls OVER the fixed hero ──────────── */}
       <div className="relative z-10 overflow-x-hidden">
-        {/* Dark gradient that covers any gap between hero and banner on mobile */}
-        <div className="h-[15vh] md:h-[10vh] bg-gradient-to-b from-transparent via-black/80 to-black pointer-events-none" aria-hidden="true" />
         {/* Red banner is the first piece of scrolling content */}
         <HeroBannerTransition />
 
