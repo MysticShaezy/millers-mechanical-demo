@@ -308,10 +308,17 @@ body.nav-open {
   -webkit-text-stroke-color: rgba(255, 255, 255, 0.9);
   -webkit-text-stroke-width: 0.034em;
   paint-order: stroke fill;
+  /* Dense, self-contained dark halo. Stacked em-scaled layers build their own
+     darkness near the letters so the glow reads identically over any backdrop
+     (dark shed or light building) — reproducing the mobile look on every
+     viewport instead of depending on what's behind the text. */
   text-shadow:
-    0 0 0.17em rgba(0, 0, 0, 0.65),
-    0 0.034em 0.3em rgba(0, 0, 0, 0.5),
-    0 0.1em 0.53em rgba(0, 0, 0, 0.35);
+    0 0 0.05em rgba(0, 0, 0, 0.95),
+    0 0 0.1em rgba(0, 0, 0, 0.9),
+    0 0 0.16em rgba(0, 0, 0, 0.85),
+    0 0 0.24em rgba(0, 0, 0, 0.75),
+    0 0.03em 0.34em rgba(0, 0, 0, 0.6),
+    0 0.06em 0.5em rgba(0, 0, 0, 0.45);
 }
 
 /* Script font — matches the "Miller" handwriting from the logo */
