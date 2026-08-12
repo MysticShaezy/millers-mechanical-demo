@@ -34,10 +34,11 @@ export default function NavShell() {
     if (!isHomepage) return;
 
     const onScroll = () => {
-      // Nav appears when the red banner reaches the top of the viewport.
-      // The spacer is 200dvh (100dvh expansion runway + 100dvh rise), so the
-      // scrollable content (starting with the banner) reaches the top at 2×vh.
-      setNavVisible(window.scrollY >= 2 * window.innerHeight);
+      // Nav slides in as soon as the hero finishes expanding (scrollY = 1×vh),
+      // so the About/Services/Contact tabs are reachable a full viewport sooner.
+      // It sits at z-50 over the still-present hero pills (z-40, inside the z-0
+      // hero) until they fade at 2×vh — a clean visual takeover.
+      setNavVisible(window.scrollY >= window.innerHeight);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
