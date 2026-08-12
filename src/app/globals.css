@@ -106,7 +106,11 @@
    ========================================================================== */
 
 html {
-  scroll-behavior: smooth;
+  /* NOTE: intentionally NOT `scroll-behavior: smooth`. A global smooth
+     scroll turns every route navigation's scroll-to-top into an animation
+     that the incoming page interrupts, leaving visitors part-way down.
+     Deliberate smooth scrolls (e.g. the nav "MILLER ENGINES" click) pass
+     behavior:"smooth" explicitly in JS and are unaffected. */
   overflow-x: hidden;
   overscroll-behavior: none;
   max-width: 100vw;

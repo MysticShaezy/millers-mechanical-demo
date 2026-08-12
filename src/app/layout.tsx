@@ -4,6 +4,7 @@ import "./globals.css";
 import { siteConfig, getLocalBusinessSchema } from "@/data/site";
 import NavShell from "@/components/layout/NavShell";
 import Footer from "@/components/layout/Footer";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 import SkipToContent from "@/components/ui/SkipToContent";
 
 const montserrat = Montserrat({
@@ -85,6 +86,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${montserrat.variable} ${lobster.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased overflow-x-hidden bg-brand-black">
+        <ScrollToTop />
         <SkipToContent />
         <NavShell />
         <main id="main-content" className="flex-1 relative z-10">
