@@ -27,7 +27,7 @@ export default function ServicesPage() {
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
               Comprehensive vehicle diagnosis and repair services in
-              Toowoomba — backed by guaranteed workmanship.
+              Toowoomba backed by guaranteed workmanship.
             </p>
           </FadeIn>
         </div>
@@ -39,7 +39,7 @@ export default function ServicesPage() {
           <FadeIn>
             <SectionHeading
               title="Complete Automotive Care"
-              subtitle="From routine servicing to complex diagnostics — we've got you covered."
+              subtitle="From routine servicing to complex diagnostics we've got you covered."
             />
           </FadeIn>
 

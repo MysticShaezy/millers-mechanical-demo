@@ -20,11 +20,11 @@ export const services: Service[] = [
     title: "Vehicle Diagnosis",
     shortDescription:
       "Expert vehicle diagnosis in Toowoomba, helping you get to the root of the problem quickly and accurately.",
-    longDescription: `Modern vehicles are equipped with complex systems designed to improve performance, efficiency, and safety. When something goes wrong, your car often tries to tell you — through warning lights, strange noises, reduced performance, or poor fuel economy.
+    longDescription: `Modern vehicles are equipped with complex systems designed to improve performance, efficiency, and safety. When something goes wrong, your car often tries to tell you through warning lights, strange noises, reduced performance, or poor fuel economy.
 
 At Miller Engines and Mechanical, we specialise in expert vehicle diagnosis in Toowoomba, helping you get to the root of the problem quickly and accurately.
 
-Our workshop uses advanced diagnostic scan tools and the knowledge of highly experienced technicians to pinpoint issues in your engine, transmission, exhaust, brakes, electrical systems, and more. Whether it's a minor sensor fault or a major mechanical issue, we'll find it — and fix it.
+Our workshop uses advanced diagnostic scan tools and the knowledge of highly experienced technicians to pinpoint issues in your engine, transmission, exhaust, brakes, electrical systems, and more. Whether it's a minor sensor fault or a major mechanical issue, we'll find it and fix it.
 
 **What is Vehicle Diagnosis?**
 
@@ -35,14 +35,14 @@ Vehicle diagnosis is the process of identifying the source of a problem in your 
       "Modern diagnostic platforms",
       "Engine, transmission, ABS, airbag diagnostics",
       "Climate control and electrical fault finding",
-      "Honest communication — we explain before we repair",
-      "No unnecessary repairs — we fix what needs fixing",
+      "Honest communication we explain before we repair",
+      "No unnecessary repairs we fix what needs fixing",
     ],
     faq: [
       {
         question: "How long does a vehicle diagnosis take?",
         answer:
-          "Most diagnostic checks are completed within 30–60 minutes. Complex electrical or intermittent issues may take longer.",
+          "Most diagnostic checks are completed within 30-60 minutes. Complex electrical or intermittent issues may take longer.",
       },
       {
         question: "Do I need a diagnosis if my check engine light is on?",
@@ -68,7 +68,7 @@ Vehicle diagnosis is the process of identifying the source of a problem in your 
 
 From squealing brakes to a spongy pedal, we diagnose and fix all brake issues with precision. We service disc brakes, drum brakes, brake pads, rotors, callipers, brake lines, and master cylinders across all vehicle makes and models.
 
-Our technicians will always inspect your braking system as part of any service and let you know if attention is needed — before it becomes a safety risk.`,
+Our technicians will always inspect your braking system as part of any service and let you know if attention is needed before it becomes a safety risk.`,
     icon: ShieldCheck,
     features: [
       "Disc and drum brake servicing",
@@ -87,7 +87,7 @@ Our technicians will always inspect your braking system as part of any service a
       {
         question: "How often should brakes be inspected?",
         answer:
-          "We recommend a brake inspection every 12 months or 20,000km — whichever comes first.",
+          "We recommend a brake inspection every 12 months or 20,000km whichever comes first.",
       },
     ],
     metaTitle: "Brake Repairs Toowoomba | Miller Engines & Mechanical",
@@ -122,7 +122,7 @@ Whether your vehicle is brand new or a few years old, regular servicing is the b
       {
         question: "How often should I get my car serviced?",
         answer:
-          "Most manufacturers recommend servicing every 12 months or 15,000km — whichever comes first. Check your owner's manual for your specific interval.",
+          "Most manufacturers recommend servicing every 12 months or 15,000km whichever comes first. Check your owner's manual for your specific interval.",
       },
     ],
     metaTitle: "Logbook Servicing Toowoomba | Miller Engines & Mechanical",
@@ -134,7 +134,7 @@ Whether your vehicle is brand new or a few years old, regular servicing is the b
     title: "Air Conditioning Regas",
     shortDescription:
       "Keep cool in summer with complete air conditioning regas and repairs.",
-    longDescription: `Queensland summers are brutal — don't get caught with a failing air conditioning system. At Miller Engines and Mechanical, we offer complete automotive air conditioning services including regas, leak detection, and component repairs.
+    longDescription: `Queensland summers are brutal don't get caught with a failing air conditioning system. At Miller Engines and Mechanical, we offer complete automotive air conditioning services including regas, leak detection, and component repairs.
 
 If your A/C isn't blowing cold, is making unusual noises, or has a strange smell, we'll diagnose the issue and get your system working efficiently again.
 
@@ -152,7 +152,7 @@ We service all vehicle A/C systems and use quality refrigerant to manufacturer s
       {
         question: "How often does car A/C need a regas?",
         answer:
-          "Most vehicles benefit from an A/C regas every 2–3 years, or sooner if you notice reduced cooling performance.",
+          "Most vehicles benefit from an A/C regas every 2-3 years, or sooner if you notice reduced cooling performance.",
       },
       {
         question: "Why does my car A/C smell bad?",
@@ -293,7 +293,7 @@ Our vinyl work is precision-cut and professionally applied for a seamless, facto
       {
         question: "How long does vinyl wrap last?",
         answer:
-          "Quality vinyl wraps typically last 5–7 years with proper care. Paint protection film can last even longer.",
+          "Quality vinyl wraps typically last 5-7 years with proper care. Paint protection film can last even longer.",
       },
       {
         question: "Will vinyl damage my paint?",

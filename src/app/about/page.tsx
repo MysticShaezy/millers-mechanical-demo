@@ -90,7 +90,7 @@ export default function AboutPage() {
                 </p>
                 <p>
                   We also specialise in accurately diagnosing mechanical issues
-                  and carrying out repairs for brakes, clutches, and more — all
+                  and carrying out repairs for brakes, clutches, and more all
                   backed by our guaranteed workmanship.
                 </p>
               </div>
