@@ -4,7 +4,6 @@ import HeroBannerTransition from "@/components/sections/HeroBannerTransition";
 import ServiceGrid from "@/components/sections/ServiceGrid";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import Testimonials from "@/components/sections/Testimonials";
-import QuoteWizard from "@/components/conversion/QuoteWizard";
 import ContactFormSection from "@/components/sections/ContactFormSection";
 import StickyConversionDock from "@/components/conversion/StickyConversionDock";
 
@@ -30,7 +29,6 @@ export default function Home() {
           <ServiceGrid />
           <FeaturesSection />
           <Testimonials />
-          <QuoteWizard />
           <ContactFormSection />
         </div>
       </div>
