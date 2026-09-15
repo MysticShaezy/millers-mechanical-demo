@@ -298,27 +298,41 @@ body.nav-open {
    Hero Text — Logo-Style Stroke Effect
    ========================================================================== */
 
-/* Red fill + white outline + black glow (matches Miller Engines logo).
-   Stroke and shadow use `em` units so they scale WITH the font-size — the
-   outline thickness and glow stay proportional at text-6xl (mobile),
-   text-8xl (tablet) and text-9xl (desktop). Mobile is the reference:
-   2px / 60px ≈ 0.034em, 10/18/32px ≈ 0.17/0.30/0.53em. */
+/* Red fill + slim white outline + tight black shadow (matches the Miller
+   Engines logo). The MOBILE rendering (60px glyphs) is the reference look.
+
+   Stroke and shadow are in px, deliberately NOT em: em-scaling made the
+   desktop title (128px) carry a 5.8px stroke and a 70px shadow cloud, which
+   read as a muddy dark halo with a barely-there outline. Fixed px keeps the
+   same slim line and tight falloff the eye sees on a phone; the stroke steps
+   up only slightly with the bigger glyphs so it still registers as a line. */
 .hero-text-red {
   color: var(--color-primary);
-  /* 1) Crisp, bright, hard-edged WHITE outline (paint-order draws it under the
-        red fill, so its outer half shows as a clean line around each letter). */
+  /* 1) Crisp WHITE outline. paint-order draws it under the red fill, so the
+        outer half shows as a clean line around each letter. */
   -webkit-text-stroke-color: rgba(255, 255, 255, 0.95);
-  -webkit-text-stroke-width: 0.045em;
+  -webkit-text-stroke-width: 2.7px;
   paint-order: stroke fill;
-  /* 2) Soft BLACK halo that starts just OUTSIDE the white line and fades out —
-        a smooth falloff (no hard black ring against the white), but stacked and
-        em-scaled so it stays dense enough to read over any backdrop. */
+  /* 2) Soft BLACK shadow that starts just outside the white line and falls
+        off quickly — dense enough to read over sky or white walls, no cloud. */
   text-shadow:
-    0 0 0.08em rgba(0, 0, 0, 0.9),
-    0 0 0.15em rgba(0, 0, 0, 0.8),
-    0 0 0.24em rgba(0, 0, 0, 0.68),
-    0 0.03em 0.36em rgba(0, 0, 0, 0.52),
-    0 0.07em 0.55em rgba(0, 0, 0, 0.36);
+    0 0 5px rgba(0, 0, 0, 0.9),
+    0 0 9px rgba(0, 0, 0, 0.8),
+    0 0 14px rgba(0, 0, 0, 0.65),
+    0 2px 20px rgba(0, 0, 0, 0.5),
+    0 4px 30px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 768px) {
+  .hero-text-red {
+    -webkit-text-stroke-width: 3.5px; /* text-8xl (96px) */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-text-red {
+    -webkit-text-stroke-width: 4px; /* text-9xl (128px) */
+  }
 }
 
 /* Script font — matches the "Miller" handwriting from the logo */

@@ -1,10 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Clock } from "lucide-react";
-import { siteConfig } from "@/data/site";
+import { siteConfig, socialLinks } from "@/data/site";
 import { footerNavigation, serviceNavigation } from "@/data/navigation";
+import { getGoogleRating } from "@/lib/google-reviews";
+import GoogleRatingBadge from "@/components/sections/GoogleRatingBadge";
 
-export default function Footer() {
+export default async function Footer() {
+  const live = await getGoogleRating();
   return (
     <footer className="relative z-10 bg-brand-black text-white mt-auto pb-20 md:pb-0" role="contentinfo">
       <div className="container mx-auto px-4 py-16">
@@ -24,6 +27,9 @@ export default function Footer() {
               Professional vehicle diagnosis and repairs in Toowoomba. Honest,
               reliable automotive care backed by guaranteed workmanship.
             </p>
+            {/* Live Google rating — count and stars come from the Business
+                Profile, never typed. */}
+            <GoogleRatingBadge live={live} className="mt-6" />
           </div>
 
           {/* Quick Links */}
@@ -110,27 +116,25 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <a
-              href={siteConfig.social.facebook}
-              className="hover:text-white transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit us on Facebook"
-            >
-              Facebook
-            </a>
-            <span aria-hidden="true">·</span>
-            <a
-              href={siteConfig.social.instagram}
-              className="hover:text-white transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit us on Instagram"
-            >
-              Instagram
-            </a>
-          </div>
+          {/* Only profiles that exist are rendered — no href="#" placeholders. */}
+          {socialLinks.length > 0 && (
+            <div className="flex items-center gap-4">
+              {socialLinks.map((s, i) => (
+                <span key={s.label} className="flex items-center gap-4">
+                  {i > 0 && <span aria-hidden="true">·</span>}
+                  <a
+                    href={s.href}
+                    className="hover:text-white transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visit us on ${s.label}`}
+                  >
+                    {s.label}
+                  </a>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </footer>

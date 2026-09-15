@@ -11,7 +11,8 @@ interface ScrollExpandMediaProps {
   title?: string;
   date?: string;
   scrollToExpand?: string;
-  textBlend?: boolean;
+  /** Plain-language tagline under the title — names the service and the place. */
+  subtitle?: string;
   onProgressChange?: (progress: number) => void;
   children?: ReactNode;
 }
@@ -35,7 +36,7 @@ const ScrollExpandMedia = ({
   title,
   date,
   scrollToExpand,
-  textBlend,
+  subtitle,
   onProgressChange,
   children,
 }: ScrollExpandMediaProps) => {
@@ -46,6 +47,25 @@ const ScrollExpandMedia = ({
     w: 0,
     h: 0,
   });
+  // The expanding card image is at opacity 0 until the visitor scrolls, yet
+  // as a plain in-viewport <img> it was fetched at high priority during the
+  // initial load. Mount it once the browser is idle after hydration instead:
+  // it is long loaded before anyone scrolls, and it stops competing with the
+  // hero image, fonts and CSS for the first paint (and drops out of what
+  // Lighthouse charges to LCP).
+  const [showMedia, setShowMedia] = useState<boolean>(false);
+  useEffect(() => {
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(() => setShowMedia(true), { timeout: 1500 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const t = setTimeout(() => setShowMedia(true), 300);
+    return () => clearTimeout(t);
+  }, []);
 
   // Notify parent of scroll progress changes
   useEffect(() => {
@@ -146,21 +166,23 @@ const ScrollExpandMedia = ({
                     className="relative w-full h-full"
                     style={{ opacity: scrollProgress }}
                   >
-                    {/* NOT priority: this card is opacity:0 until the user scrolls,
-                        so preloading it (it's a large image) only steals early
-                        bandwidth from the real LCP/font. It's in-viewport, so it
-                        still loads promptly via the default eager path. */}
-                    <Image
-                      src={mediaSrc}
-                      alt={title || "Media content"}
-                      width={1280}
-                      height={720}
-                      className="w-full h-full object-cover rounded-xl"
-                      sizes="(max-width: 768px) 100vw, 85vw"
-                      style={
-                        isMobileState ? { borderRadius: mobileRadius } : undefined
-                      }
-                    />
+                    {/* The wrapper is always rendered (it keeps the layout
+                        below it stable); only the image itself mounts
+                        post-idle (see showMedia) — never part of the initial
+                        load, always ready before the first scroll. */}
+                    {showMedia && (
+                      <Image
+                        src={mediaSrc}
+                        alt={title || "Media content"}
+                        width={1280}
+                        height={720}
+                        className="w-full h-full object-cover rounded-xl"
+                        sizes="(max-width: 768px) 100vw, 85vw"
+                        style={
+                          isMobileState ? { borderRadius: mobileRadius } : undefined
+                        }
+                      />
+                    )}
                     <div
                       className="absolute inset-0 bg-black/10 rounded-xl"
                       style={
@@ -195,44 +217,45 @@ const ScrollExpandMedia = ({
                 </div>
               </div>
 
-              {/* Title text — splits as scroll progresses */}
-              <div
-                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
-                  textBlend ? "mix-blend-difference" : "mix-blend-normal"
-                }`}
-              >
-                {/* Plain h2 (NOT motion) — this is the LCP element. The transform
-                    is scroll-driven inline style, so no motion component is needed.
+              {/* Title text — splits as scroll progresses.
+                  No mix-blend-mode here: it blended against a transparent
+                  isolated backdrop (a visual no-op) while forcing the heaviest
+                  text on the page into its own compositing group. */}
+              <div className="flex items-center justify-center text-center w-full relative z-10 transition-none flex-col">
+                {/* The page's ONE h1 (it is also the LCP element — plain element,
+                    scroll-driven inline transforms, no motion component). The two
+                    words animate independently as spans inside the single heading.
                     hero-text-red + hero-text-script = Lobster script, red fill,
                     white outline, black glow (matches the Miller logo). */}
-                <h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold hero-text-red hero-text-script transition-none"
-                  style={{
-                    transform: `translateX(-${textTranslateX}vw)`,
-                  }}
-                >
-                  {firstWord}
-                </h2>
-                <h2
-                  className="text-6xl md:text-8xl lg:text-9xl font-bold text-center hero-text-red hero-text-script transition-none"
-                  style={{
-                    transform: `translateX(${textTranslateX}vw)`,
-                  }}
-                >
-                  {restOfTitle}
-                </h2>
-                <p
-                  className="text-white text-sm md:text-lg lg:text-xl font-semibold tracking-widest uppercase mt-2 md:mt-4 text-center max-w-2xl mx-auto transition-none"
-                  style={{
-                    fontFamily: 'var(--font-montserrat), sans-serif',
-                    WebkitTextStroke: '0.5px rgba(0, 0, 0, 0.7)',
-                    paintOrder: 'stroke fill',
-                    textShadow: '0 1px 4px rgba(0, 0, 0, 0.6)',
-                    opacity: Math.max(1 - textTranslateX / 8, 0),
-                  }}
-                >
-                  offer a full range of mechanical servicing, repair and maintenance services.
-                </p>
+                <h1 className="flex flex-col items-center gap-4 text-6xl md:text-8xl lg:text-9xl font-bold hero-text-red hero-text-script transition-none">
+                  <span
+                    className="block"
+                    style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  >
+                    {firstWord}
+                  </span>{" "}
+                  <span
+                    className="block"
+                    style={{ transform: `translateX(${textTranslateX}vw)` }}
+                  >
+                    {restOfTitle}
+                  </span>
+                  {subtitle && <span className="sr-only"> — {subtitle}</span>}
+                </h1>
+                {subtitle && (
+                  <p
+                    className="text-white text-sm md:text-lg lg:text-xl font-semibold tracking-widest uppercase mt-6 md:mt-8 text-center max-w-2xl mx-auto transition-none"
+                    style={{
+                      fontFamily: 'var(--font-montserrat), sans-serif',
+                      WebkitTextStroke: '0.5px rgba(0, 0, 0, 0.7)',
+                      paintOrder: 'stroke fill',
+                      textShadow: '0 1px 4px rgba(0, 0, 0, 0.6)',
+                      opacity: Math.max(1 - textTranslateX / 8, 0),
+                    }}
+                  >
+                    {subtitle}
+                  </p>
+                )}
               </div>
             </div>
 

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/design-lab" },
   title: "Design Lab",
   description: "Private component catalogue and feature demonstrations.",
   robots: { index: false, follow: false },

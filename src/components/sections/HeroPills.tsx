@@ -53,10 +53,10 @@ export default function HeroPills({
       }}
     >
       <div className="flex w-full px-4 pt-4 nav:px-6 nav:pt-5 relative">
-        <div className="pointer-events-auto flex items-center justify-between w-full bg-brand-black/90 backdrop-blur-md rounded-full px-3 py-2 border border-border-dark shadow-2xl nav:bg-transparent nav:backdrop-blur-none nav:border-none nav:shadow-none nav:p-0 nav:w-full">
+        <div className="pointer-events-auto flex items-center justify-between w-full bg-brand-black/90 rounded-full px-3 py-2 border border-border-dark shadow-2xl nav:bg-transparent nav:border-none nav:shadow-none nav:p-0 nav:w-full">
           
           {/* ── LEFT SECTION — Brand + Hours ─────────────────────────────── */}
-          <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink nav:bg-brand-black/90 nav:backdrop-blur-md nav:rounded-full nav:px-4 nav:py-2.5 nav:border nav:border-border-dark nav:shadow-2xl">
+          <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink nav:bg-brand-black/90 nav:rounded-full nav:px-4 nav:py-2.5 nav:border nav:border-border-dark nav:shadow-2xl">
             <Link
               href="/"
               className="flex items-center gap-1.5 md:gap-2 min-h-[36px] min-w-0 overflow-hidden px-2 nav:px-0"
@@ -111,7 +111,7 @@ export default function HeroPills({
           </div>
 
           {/* ── RIGHT SECTION — Phone + Book + Mobile Menu ──────────────── */}
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0 nav:bg-brand-black/90 nav:backdrop-blur-md nav:rounded-full nav:px-2.5 nav:py-2.5 nav:border nav:border-border-dark nav:shadow-2xl">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0 nav:bg-brand-black/90 nav:rounded-full nav:px-2.5 nav:py-2.5 nav:border nav:border-border-dark nav:shadow-2xl">
             {/* Phone with full number — visible from sm (640px) up */}
             <a
               href={`tel:${siteConfig.phone}`}

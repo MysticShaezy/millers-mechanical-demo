@@ -7,6 +7,7 @@ import Card from "@/components/ui/Card";
 import { siteConfig } from "@/data/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/about" },
   title: "About Us",
   description:
     "Get to know Darrin Miller and the team behind Miller Engines & Mechanical — Toowoomba's trusted independent mechanic.",

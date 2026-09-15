@@ -67,6 +67,9 @@ export interface SiteConfig {
     lat: number;
     lng: number;
   };
+  google: {
+    placeQuery: string;
+  };
 }
 
 /** Contact form data */

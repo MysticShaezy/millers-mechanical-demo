@@ -80,7 +80,7 @@ export default function CinematicHero() {
             title="MILLER ENGINES"
             date="TOOWOOMBA QLD"
             scrollToExpand="SCROLL TO EXPLORE"
-            textBlend={true}
+            subtitle="Mechanical servicing, repairs and maintenance in Toowoomba."
             onProgressChange={handleProgressChange}
           />
         </div>

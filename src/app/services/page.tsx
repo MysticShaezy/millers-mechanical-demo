@@ -7,6 +7,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import FadeIn from "@/components/motion/FadeIn";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services" },
   title: "Our Services",
   description:
     "Comprehensive vehicle diagnosis, brake repairs, logbook servicing, air conditioning, clutch replacements, and more in Toowoomba.",

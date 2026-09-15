@@ -7,6 +7,7 @@ import Card from "@/components/ui/Card";
 import FadeIn from "@/components/motion/FadeIn";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "Contact Us",
   description: `Contact Miller Engines & Mechanical in Toowoomba. Call ${siteConfig.phoneFormatted} or send us a message. ${siteConfig.address.full}.`,
 };

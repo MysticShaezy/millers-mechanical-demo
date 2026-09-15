@@ -8,6 +8,7 @@ import ContactFormSection from "@/components/sections/ContactFormSection";
 import StickyConversionDock from "@/components/conversion/StickyConversionDock";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/" },
   title: "Trusted Mechanic Toowoomba | Miller Engines & Mechanical",
   description:
     "Professional vehicle diagnosis, servicing and repairs in Toowoomba QLD. Honest, reliable automotive care with guaranteed workmanship. Call +61 7 4633 2417.",

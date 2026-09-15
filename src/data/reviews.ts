@@ -34,10 +34,3 @@ export const reviews: Review[] = [
     source: "sample",
   },
 ];
-
-/** Aggregate review stats */
-export const reviewStats = {
-  averageRating: 5.0,
-  totalReviews: reviews.length,
-  googleRating: 5.0,
-};

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat, Lobster } from "next/font/google";
 import "./globals.css";
 import { siteConfig, getLocalBusinessSchema } from "@/data/site";
+import { getGoogleRating } from "@/lib/google-reviews";
 import NavShell from "@/components/layout/NavShell";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
@@ -25,6 +26,9 @@ const lobster = Lobster({
 });
 
 export const metadata: Metadata = {
+  // Every relative URL in metadata (canonical, OG image) resolves against the
+  // production host. Pages set their own `alternates.canonical`.
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: `${siteConfig.name} | Trusted Mechanic Toowoomba`,
     template: `%s | ${siteConfig.name}`,
@@ -50,10 +54,10 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: `${siteConfig.url}/assets/hero-car.jpg`,
+        url: "/assets/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: `${siteConfig.name} workshop, ${siteConfig.address.city}`,
       },
     ],
   },
@@ -76,12 +80,14 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = getLocalBusinessSchema();
+  // Live Google rating feeds aggregateRating + sameAs; null without a key.
+  const live = await getGoogleRating();
+  const jsonLd = getLocalBusinessSchema(live);
 
   return (
     <html lang="en" className={`${montserrat.variable} ${lobster.variable} h-full`}>
